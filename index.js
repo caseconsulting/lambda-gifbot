@@ -11,7 +11,7 @@ exports.handler = function(event, context, callback) {
     const limit = '50';
     let searchEndPoint = 'https://api.giphy.com/v1/gifs/translate';
 
-  let url = `${searchEndPoint}?api_key=${apiKey}&s=${searchTerm}&limit=${limit}&rating=pg-13`;
+  let url = `${searchEndPoint}?api_key=${apiKey}&s=${searchTerm}&limit=${limit}&rating=pg`;
   if(companyId == process.env.companyId){
 var response;
   axios.get(url)
