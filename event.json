@@ -1,0 +1,3 @@
+{
+  "body": "{ \"command\": \"motivation\", \"creator\": { \"company\": { \"id\": \"<companyId>\" } } }"
+}
