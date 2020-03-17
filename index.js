@@ -51,9 +51,6 @@ exports.handler = function(event, context, callback) {
       gif = hokieGifs[Math.floor(Math.random() * hokieGifs.length)];
       response = {
         statusCode: 200,
-        headers: {
-          'x-custom-header': 'my custom header value'
-        },
         body: gif
       };
       console.log('sending this gif', gif);
@@ -65,9 +62,6 @@ exports.handler = function(event, context, callback) {
           gif = response.data.data.images.original.url;
           response = {
             statusCode: 200,
-            headers: {
-              'x-custom-header': 'my custom header value'
-            },
             body: gif
           };
           console.log('sending this gif', gif);
@@ -76,9 +70,6 @@ exports.handler = function(event, context, callback) {
         .catch(error => {
           response = {
             statusCode: 200,
-            headers: {
-              'x-custom-header': 'my custom header value'
-            },
             body: 'Something went wrong :( https://media.giphy.com/media/l41JNsXAvFvoHvWJW/giphy.gif'
           };
           console.log('something went wrong', error);
@@ -88,9 +79,6 @@ exports.handler = function(event, context, callback) {
   } else {
     response = {
       statusCode: 403,
-      headers: {
-        'x-custom-header': 'my custom header value'
-      },
       body: 'Access Denied'
     };
     console.log('access denied');
