@@ -1,4 +1,10 @@
 {
+  "name": "lambda-gifbot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Returns GIF based on given search term",
+  "repository": "https://github.com/caseconsulting/lambda-gifbot",
+  "author": "Case Consulting",
   "dependencies": {
     "axios": "^0.19.0",
     "lodash": "^4.17.15"
