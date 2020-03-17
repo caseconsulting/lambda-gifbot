@@ -6,7 +6,7 @@
   "repository": "https://github.com/caseconsulting/lambda-gifbot",
   "author": "Case Consulting",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.19.2",
     "lodash": "^4.17.15"
   }
 }
