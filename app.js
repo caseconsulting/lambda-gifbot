@@ -19,7 +19,7 @@ let response;
  */
 exports.handler = async (event, context) => {
   const body = JSON.parse(event.body);
-  const searchTerm = JSON.stringify(body.command);
+  const searchTerm = body.command;
   const companyId = body.creator.company.id;
   const apiKey = `${process.env.giphyAPIKey}`;
   const limit = '50';
@@ -67,16 +67,18 @@ exports.handler = async (event, context) => {
         body: gif
       };
       console.log('Sending this gif:', gif);
+      return response;
     } else {
-      axios
+      return axios
         .get(url)
-        .then(response => {
-          gif = response.data.data.images.original.url;
+        .then(result => {
+          gif = result.data.data.images.original.url;
           response = {
             statusCode: 200,
             body: gif
           };
           console.log('Sending this gif:', gif);
+          return response;
         })
         .catch(error => {
           response = {
@@ -84,6 +86,7 @@ exports.handler = async (event, context) => {
             body: 'Something went wrong :( https://media.giphy.com/media/l41JNsXAvFvoHvWJW/giphy.gif'
           };
           console.log('Something went wrong', error);
+          return response;
         });
     }
   } else {
@@ -92,7 +95,6 @@ exports.handler = async (event, context) => {
       body: 'Access Denied'
     };
     console.log('Access denied');
+    return response;
   }
-
-  return response;
 };
