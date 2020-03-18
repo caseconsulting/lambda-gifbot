@@ -5,6 +5,11 @@
   "description": "Returns GIF based on given search term",
   "repository": "https://github.com/caseconsulting/lambda-gifbot",
   "author": "Case Consulting",
+  "scripts": {
+    "build": "sam build -t template.yaml",
+    "deploy": "npm run build && sam deploy --template-file template.yaml",
+    "local": "npm run build && sam local invoke \"GifBotFunction\" -e event.json"
+  },
   "dependencies": {
     "axios": "^0.19.2",
     "lodash": "^4.17.15"

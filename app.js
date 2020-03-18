@@ -3,15 +3,29 @@
 const _ = require('lodash');
 const axios = require('axios');
 
-exports.handler = function(event, context, callback) {
-  let body = JSON.parse(event.body);
+let response;
+
+/**
+ *
+ * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
+ * @param {Object} event - API Gateway Lambda Proxy Input Format
+ *
+ * Context doc: https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-context.html
+ * @param {Object} context
+ *
+ * Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
+ * @returns {Object} object - API Gateway Lambda Proxy Output Format
+ *
+ */
+exports.handler = async (event, context) => {
+  const body = JSON.parse(event.body);
   const searchTerm = JSON.stringify(body.command);
   const companyId = body.creator.company.id;
-  const apiKey = `${process.env.GifbotAPIDevKey}`;
+  const apiKey = `${process.env.giphyAPIKey}`;
   const limit = '50';
   const rating = 'pg';
   const searchEndPoint = 'https://api.giphy.com/v1/gifs/translate';
-  const hokieGifs = [
+  const HOKIE_GIFS = [
     'https://media.giphy.com/media/600ZssZNotyYcZ4GQa/giphy.gif',
     'https://media.giphy.com/media/3KZuZEDsLvESk/giphy.gif',
     'https://media.giphy.com/media/dJuF2C7Qzy3LO/giphy.gif',
@@ -39,22 +53,20 @@ exports.handler = function(event, context, callback) {
     'https://media.giphy.com/media/uawaocN5We6JO/giphy.gif',
     'https://media.giphy.com/media/KPKrYlBCx12Rq/giphy.gif'
   ];
+  const HOKIE_TERMS = ['hokie', 'Hokie', 'hokies', 'Hokies', 'virginia tech', 'vt'];
 
-  let url = `${searchEndPoint}?api_key=${apiKey}&s=${searchTerm}&limit=${limit}&rating=${rating}`;
-
-  let response;
+  const url = `${searchEndPoint}?api_key=${apiKey}&s=${searchTerm}&limit=${limit}&rating=${rating}`;
 
   if (companyId == process.env.companyId) {
     let gif;
 
-    if (_.includes(['hokie', 'Hokie', 'hokies', 'Hokies', 'virginia tech', 'vt'], searchTerm.replace(/['"]+/g, ''))) {
-      gif = hokieGifs[Math.floor(Math.random() * hokieGifs.length)];
+    if (_.includes(HOKIE_TERMS, searchTerm.replace(/['"]+/g, ''))) {
+      gif = HOKIE_GIFS[Math.floor(Math.random() * HOKIE_GIFS.length)];
       response = {
         statusCode: 200,
         body: gif
       };
-      console.log('sending this gif', gif);
-      callback(null, response);
+      console.log('Sending this gif:', gif);
     } else {
       axios
         .get(url)
@@ -64,16 +76,14 @@ exports.handler = function(event, context, callback) {
             statusCode: 200,
             body: gif
           };
-          console.log('sending this gif', gif);
-          callback(null, response);
+          console.log('Sending this gif:', gif);
         })
         .catch(error => {
           response = {
             statusCode: 200,
             body: 'Something went wrong :( https://media.giphy.com/media/l41JNsXAvFvoHvWJW/giphy.gif'
           };
-          console.log('something went wrong', error);
-          callback(null, response);
+          console.log('Something went wrong', error);
         });
     }
   } else {
@@ -81,7 +91,8 @@ exports.handler = function(event, context, callback) {
       statusCode: 403,
       body: 'Access Denied'
     };
-    console.log('access denied');
-    callback(null, response);
+    console.log('Access denied');
   }
+
+  return response;
 };

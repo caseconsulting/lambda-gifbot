@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "lambda-gifbot"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-8ph8s33f7nl5"
+s3_prefix = "lambda-gifbot"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+
