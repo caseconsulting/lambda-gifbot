@@ -11,7 +11,7 @@
     "local": "npm run build && sam local invoke GifBotFunction -e event.json"
   },
   "dependencies": {
-    "axios": "^0.25.0",
-    "lodash": "^4.17.21"
+    "axios": "0.27.2",
+    "lodash": "4.17.21"
   }
 }
