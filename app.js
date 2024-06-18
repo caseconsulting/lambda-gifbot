@@ -69,25 +69,23 @@ exports.handler = async (event, context) => {
       console.log('Sending this gif:', gif);
       return response;
     } else {
-      return axios
-        .get(url)
-        .then(result => {
-          gif = result.data.data.images.original.url;
-          response = {
-            statusCode: 200,
-            body: gif
-          };
-          console.log('Sending this gif:', gif);
-          return response;
-        })
-        .catch(error => {
-          response = {
-            statusCode: 200,
-            body: 'Something went wrong :( https://media.giphy.com/media/l41JNsXAvFvoHvWJW/giphy.gif'
-          };
-          console.log('Something went wrong', error);
-          return response;
-        });
+      try {
+        const result = await axios.get(url);
+        gif = result.data.data.images.original.url;
+        response = {
+          statusCode: 200,
+          body: gif
+        };
+        console.log('Sending this gif:', gif);
+        return response;
+      } catch (error) {
+        response = {
+          statusCode: 200,
+          body: 'Something went wrong :( https://media.giphy.com/media/l41JNsXAvFvoHvWJW/giphy.gif'
+        };
+        console.log('Something went wrong', error);
+        return response;
+      }
     }
   } else {
     response = {
