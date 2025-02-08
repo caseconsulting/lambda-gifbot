@@ -1,7 +1,4 @@
-'use strict';
-
-const _ = require('lodash');
-const axios = require('axios');
+import axios from 'axios';
 
 /**
  *
@@ -15,7 +12,7 @@ const axios = require('axios');
  * @returns {Object} object - API Gateway Lambda Proxy Output Format
  *
  */
-exports.handler = async (event, context) => {
+export const handler = async (event, context) => {
   let response;
 
   const body = JSON.parse(event.body);
@@ -60,7 +57,7 @@ exports.handler = async (event, context) => {
   if (companyId == process.env.companyId) {
     let gif;
 
-    if (_.includes(HOKIE_TERMS, searchTerm.replace(/['"]+/g, ''))) {
+    if (HOKIE_TERMS.includes(searchTerm.replace(/['"]+/g, ''))) {
       gif = HOKIE_GIFS[Math.floor(Math.random() * HOKIE_GIFS.length)];
       response = {
         statusCode: 200,
